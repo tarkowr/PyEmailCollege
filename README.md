@@ -25,4 +25,7 @@ search_country = "United States"
 ```python
 subject = "Subject: Introduction"
 ```
-* Run this program! If the program fails for whatever reason, if you start it again, it will pick back up after the last sent email.
+* Run the program! If the program fails for whatever reason, start it again, and it will pick back up after the last sent email.
+```bash
+python main.py
+```
