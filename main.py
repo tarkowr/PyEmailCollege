@@ -1,21 +1,33 @@
 import universities
 import smtplib
 import ssl
+import time
 
 msg_file = open("email_message.txt", "r")
 last_sent_file = open("last_sent.txt", "r+")
 
+# Program vars
 counter = 0
 search_country = 'United States'
 start = False
-last_sent = ''
+last_sent = None
 uni = universities.API()
+start_time = time.time()
+
+# Email connection vars
 port = 465
-sender_email = '<replace with email>'
-password = '<replace with password>'
+sender_email = 'example@domain.com'
+password = 'password'
+
+# Email message vars
 prefix = 'admissions@'
-body = ''
 subject = 'Subject: Incoming Freshman Information\n'
+body = ''
+
+# Connect to email client
+context = ssl.create_default_context()
+server = smtplib.SMTP_SSL("smtp.gmail.com", port, context=context)
+server.login(sender_email, password)
 
 # Read in email message
 for line in msg_file.readlines():
@@ -45,9 +57,7 @@ for college in colleges:
         try:
 
             intro = f'Dear {college.name}, \n\n'
-
             msg = subject + intro + body
-
             recipient = prefix + domain
 
             print(f'Sending email to {recipient}')
@@ -58,11 +68,7 @@ for college in colleges:
             last_sent_file.truncate()
 
             # Send email
-            context = ssl.create_default_context()
-    
-            with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
-                server.login(sender_email, password)
-                server.sendmail(sender_email, recipient, msg)
+            server.sendmail(sender_email, recipient, msg)
 
         except Exception as err:
             print(err)
@@ -71,7 +77,9 @@ for college in colleges:
         counter += 1
         print('Sent!')
 
-print(f'\nDone! Sent emails to {counter} universities in the {search_country}')
+end_time = round(time.time() - start_time, 1)
+
+print(f'\nDone! Sent emails to {counter} universities in {end_time} seconds')
 
 msg_file.close()
 last_sent_file.close()
