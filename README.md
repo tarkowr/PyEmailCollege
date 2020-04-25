@@ -7,13 +7,9 @@
  ```bash
  git clone https://github.com/tarkowr/PyEmailCollege.git
  ```
-* Enter your email into the `sender_email` variable
-```python
-sender_email = "example@gmail.com"
+* Enter your email and password into `Mailsploit` at the bottom of the program
 ```
-* Enter your email password into the `password` variable
-```python
-password = "P@$$w0rd"
+mailsploit = Mailsploit('email@example.com', 'password')
 ```
 * Go to https://myaccount.google.com/lesssecureapps and make sure the switch is flipped on (toggle it if it isn't)
 * Enter your email message into the `email_message.txt` file
